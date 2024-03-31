@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Selection</title>
+<style>
+  .selected-student {
+    background-color: gray;
+  }
+</style>
+</head>
+<body>
+
+
+<form id="student-form" method="post">
+  {% csrf_token %}
+  <div class="custom-dropdown">
+    <div class="dropdown-selected" onclick="toggleDropdown()">Select Students</div>
+    <div class="dropdown-options" >
+      {% for student in students %}
+      <label class="student-label">
+        <input type="checkbox" name="selected_students[]" value="{{ student.id }}" class="student-checkbox">
+        {{ student.name }}
+      </label><br>
+      {% endfor %}
+    </div>
+  </div>
+  <button type="submit">Save</button>
+</form>
+
+
+
+<script>
+function toggleDropdown() 
+{
+  var dropdownOptions = document.querySelector('.dropdown-options');
+  dropdownOptions.classList.toggle('show-dropdown');
+}
+
+document.querySelectorAll('.student-checkbox').forEach(function(checkbox) {
+  checkbox.addEventListener('change', function() {
+    var label = this.parentElement;
+    if (this.checked) {
+      label.classList.add('selected-student');
+    } else {
+      label.classList.remove('selected-student');
+    }
+  });
+});
+</script>
+
+<style>
+  .custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .dropdown-selected {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    padding: 8px;
+    cursor: pointer;
+  }
+  .dropdown-options {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    border: 1px solid #ccc;
+    z-index: 1;
+    overflow-y: auto;
+    max-height: 150px;
+  }
+  .dropdown-options.show-dropdown {
+    display: block;
+  }
+  .student-label {
+    display: block;
+    padding: 3px 10px;
+    cursor: pointer;
+  }
+  .student-label:hover {
+    background-color: #ddd;
+  }
+</style>
+
+</body>
+<body>
+  <br>
+  <footer class="bg-dark text-white text-center py-3">
+      &copy; 2023 Your Notes App. All rights reserved.
+  </footer>
+</body>
+</html>

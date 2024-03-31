@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Create Reminder{% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Reminder</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card col-md-10 mx-auto shadow-lg">
+            <div class="card-body">
+                <h4 class="text-center">Create Reminder</h4><br>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="time" class="col-sm-2 col-form-label">Time:</label>
+                        <div class="col-sm-10">
+                            <input type="datetime-local" class="form-control" id="time" name="time" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="note" class="col-sm-2 col-form-label">Note:</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="note" name="note" rows="4" cols="50" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10 offset-sm-2">
+                            <button type="submit" class="btn btn-primary">Create Reminder</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+    
+
+                <div class="container mt-4">
+                    <div class="card col-md-10 mx-auto shadow-lg">
+                        <div class="card-body">
+                            <h4 class="text-center">Previous Reminders</h4>
+                                <table class="mt-4 table table-bordered table-striped table-hover">
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Note</th>
+                                        <th></th>
+                                    </tr>
+                                     {% for reminder in remainders %}
+                                     <tr>
+                                        <td>{{ reminder.time }} </td>
+                                        <td>{{ reminder.note }} </td> 
+                                        <td class="text-center"><a href="{% url 'dr' reminder.id %}" class="mx-3 btn btn-danger ">Delete</a></td>
+                                    </tr>    
+                                     {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                </div>
+                
+</body>
+<body>
+    <br>
+    <footer class="bg-dark text-white text-center py-3">
+        &copy; 2023 Your Notes App. All rights reserved.
+    </footer>
+</body>
+</html>
+
+{% endblock %}

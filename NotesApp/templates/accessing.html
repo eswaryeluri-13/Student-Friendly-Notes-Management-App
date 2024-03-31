@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Create Notes{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Notes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add your CSS styles here */
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .card-text {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5 mb-4">Notes List</h2>
+        <div class="row">
+            {% for item1, item2 in lists %}
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item1.sub }}</h5>
+                        <p class="card-text">{{ item2.name }}</p>
+                        
+                        <a href="{% url 'klm' ID item1.id item2.id %}" class="form-control btn btn-outline-danger">Revoke Acces</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+<body>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <footer class="bg-dark text-white text-center py-3">
+        &copy; 2023 Your Notes App. All rights reserved.
+    </footer>
+</body>
+</html>
+{% endblock %}

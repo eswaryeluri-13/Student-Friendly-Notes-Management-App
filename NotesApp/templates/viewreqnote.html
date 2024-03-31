@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Create Notes{% endblock %}
+{% block content %}
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<title>Notes List</title>
+</head>
+<body>
+    <div class="container mt-12">
+        <div class="card col-md-10 mx-auto shadow-lg">
+            <div class="card-body">
+				<h4 class="text-center">{{notes.sub}}</h4><br>
+                    {{notes.note}}
+					<div class="row justify-content-center">
+						<div class="col-md-4"><br>
+							<a href="{% url 'acn' ID %}" class="btn btn-outline-primary form-control">Back</a>
+						</div>
+					</div>
+            </div>
+			{% if PDF %}
+					<embed src="{% static 'all_files/' %}{{ PDF }}" type="application/pdf" width="100%" height="600px">
+			{% endif %}
+        </div>
+    </div>
+</body>
+<body>
+    <br>
+    <footer class="bg-dark text-white text-center py-3">
+        &copy; 2023 Your Notes App. All rights reserved.
+    </footer>
+</body>
+</html>
+
+{% endblock %}

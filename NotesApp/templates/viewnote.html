@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}Create Notes{% endblock %}
+{% block content %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <title>Notes List</title>
+    <style>
+        .selected-student {
+            background-color: gray;
+        }
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-selected {
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            padding: 8px;
+            cursor: pointer;
+        }
+        .dropdown-options {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            border: 1px solid #ccc;
+            z-index: 1;
+            overflow-y: auto;
+            max-height: 150px;
+        }
+        .dropdown-options.show-dropdown {
+            display: block;
+        }
+        .student-label {
+            display: block;
+            padding: 3px 10px;
+            cursor: pointer;
+        }
+        .student-label:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-12">
+        <div class="row">
+            <!-- Student Selection Section -->
+            <div class="col-md-4">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <form id="student-form" method="post">
+                            {% csrf_token %}
+                            <h3>Select Users for collaboration</h3><br>
+                            <div class="form-group">
+                                <label for="student-dropdown">Select Students:</label>
+                                <div class="custom-dropdown">
+                                    <div class="dropdown-selected" onclick="toggleDropdown()">-- Select --</div>
+                                    <div class="dropdown-options">
+                                        {% for student in all %}
+                                        <label class="student-label">
+                                            <input type="checkbox" name="selected_students[]" value="{{ student.id }}" class="student-checkbox">
+                                            {{ student.name }}
+                                        </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Notes Display Section -->
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h4 class="text-center">{{ notes.sub }}</h4><br>
+                        {{ notes.note }}
+                        <br><br>
+                        <h6><i class="far fa-thumbs-up"></i>: {{ notes.like }} <i class="far fa-thumbs-down"></i>: {{ notes.dislike }}</h6>
+                        <div class="row justify-content-center">
+                            <div class="col-md-4"><br>
+                                <a href="{% url 'dsp' ID %}" class="btn btn-outline-primary form-control">Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                {% if PDF %}
+                    <embed src="{% static 'all_files/' %}{{ PDF }}" type="application/pdf" width="100%" height="600px">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            var dropdownOptions = document.querySelector('.dropdown-options');
+            dropdownOptions.classList.toggle('show-dropdown');
+        }
+
+        document.querySelectorAll('.student-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var label = this.parentElement;
+                if (this.checked) {
+                    label.classList.add('selected-student');
+                } else {
+                    label.classList.remove('selected-student');
+                }
+            });
+        });
+    </script>
+</body>
+<body>
+    <br>
+    <footer class="bg-dark text-white text-center py-3">
+        &copy; 2023 Your Notes App. All rights reserved.
+    </footer>
+</body>
+</html>
+{% endblock %}

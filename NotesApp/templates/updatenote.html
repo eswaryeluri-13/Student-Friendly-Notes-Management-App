@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Update Notes{% endblock %}
+{% block content %}
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <title>Student Update</title>
+</head>
+<body>
+    <div class="container mt-12">
+        <div class="card col-md-10 mx-auto shadow-lg p-3">
+            <div>
+                <h4>Notes update</h4>
+                <form method="post" enctype="multipart/form-data"> <!-- added enctype for file upload -->
+                    {% csrf_token %}
+                    <input type="text" name="s_sub" class="form-control my-2" value="{{ notes.sub }}">
+                    <textarea name="s_note" class="form-control" rows="7">{{ notes.note }}</textarea>
+                    <br>
+                    <div class="col-md-15 justify-content-center text-center">
+                        <h5>(OR)</h5>
+                    </div>
+                    <br>
+					{% if PDF %}
+					<embed src="{% static 'all_files/' %}{{ PDF }}" type="application/pdf" width="100%" height="600px">
+					{% endif %}
+                    {% if file_name %}
+                        <input type="file" name="file_upload" class="form-control my-2">
+                        <p>Current file: {{ file_name }}</p>
+
+                    {% else %}
+                        <input type="file" name="file_upload" class="form-control my-2">
+                    {% endif %}
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <a href="{% url 'dsp' ID %}" class="form-control btn btn-outline-info">Back</a>
+                        </div>
+                        
+                        <div class="col">
+                            <input type="submit" value="Update" class="form-control btn btn-outline-success">
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<body>
+    <br>
+    <footer class="bg-dark text-white text-center py-3">
+        &copy; 2023 Your Notes App. All rights reserved.
+    </footer>
+</body>
+</html>
+
+{% endblock %}
+
